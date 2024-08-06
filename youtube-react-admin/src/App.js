@@ -11,6 +11,7 @@ import ProductList from "./pages/productList/ProductList";
 import Product from "./pages/product/Product";
 import NewProduct from "./pages/newProduct/NewProduct";
 import Authenticate from "./pages/auth/Authenticate";
+import RegisterForm from "./pages/auth/Register";
 
 function App() {
   return (
@@ -18,6 +19,9 @@ function App() {
       <Switch>
         <Route path="/login">
           <Authenticate />
+        </Route>
+        <Route path="/register">
+          <RegisterForm />
         </Route>
 
         <Route>
