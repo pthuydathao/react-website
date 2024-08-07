@@ -82,7 +82,7 @@ export default function User() {
     alert("Update success!");
     console.log("udpated profile:", updatingProfile);
     setProfile(updatingProfile);
-    setUpdatingProfile({});
+    setUpdatingProfile(updatingProfile);
   };
 
   useEffect(() => {
