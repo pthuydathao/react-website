@@ -39,7 +39,13 @@ export default function User() {
   const [token, setToken] = useState("");
   const history = useHistory();
   const { logout } = useAuth();
-
+  const [updatingProfile, setUpdatingProfile] = useState({
+    fullName: "",
+    dateOfBirth: "",
+    gender: "MALE",
+    phone: "",
+    address: "",
+  });
   const [profile, setProfile] = useState({
     fullName: "",
     dateOfBirth: "",
@@ -49,31 +55,34 @@ export default function User() {
   });
 
   const handleGenderChange = (event) => {
-    setProfile({
-      ...profile,
+    setUpdatingProfile({
+      ...updatingProfile,
       gender: event.target.value,
     });
   };
 
   const handleProfileUpdate = (event) => {
-    setProfile({
-      ...profile,
+    setUpdatingProfile({
+      ...updatingProfile,
       [event.target.name]: event.target.value,
     });
   };
 
   const handleUpdateProfile = async (event) => {
     event.preventDefault();
-    const splitName = SplitName(profile.fullName);
+    const splitName = SplitName(updatingProfile.fullName);
     const payload = {
       ...splitName,
-      address: profile.address,
-      phone: profile.phone,
-      dateOfBirth: profile.dateOfBirth,
-      gender: profile.gender,
+      address: updatingProfile.address,
+      phone: updatingProfile.phone,
+      dateOfBirth: updatingProfile.dateOfBirth,
+      gender: updatingProfile.gender,
     };
     const response = await UpdateUser(user.id, payload, token);
-    // Handle the response as needed
+    alert("Update success!");
+    console.log("udpated profile:", updatingProfile);
+    setProfile(updatingProfile);
+    setUpdatingProfile({});
   };
 
   useEffect(() => {
@@ -88,6 +97,13 @@ export default function User() {
         setToken(token);
         setUser(userData);
         setProfile({
+          fullName: `${userData.firstName} ${userData.lastName}`,
+          dateOfBirth: formatDateString(userData.dateOfBirth),
+          gender: userData.gender,
+          phone: userData.phone,
+          address: userData.address,
+        });
+        setUpdatingProfile({
           fullName: `${userData.firstName} ${userData.lastName}`,
           dateOfBirth: formatDateString(userData.dateOfBirth),
           gender: userData.gender,
@@ -113,10 +129,8 @@ export default function User() {
               className="userShowImg"
             />
             <div className="userShowTopTitle">
-              <span className="userShowUsername">
-                {user.firstName + " " + user.lastName}
-              </span>
-              <span className="userShowUserTitle">{user.gender}</span>
+              <span className="userShowUsername">{profile.fullName}</span>
+              <span className="userShowUserTitle">{profile.gender}</span>
             </div>
           </div>
           <div className="userShowBottom">
@@ -209,7 +223,7 @@ export default function User() {
                 <input
                   type="date"
                   className="userUpdateInput"
-                  value={profile.dateOfBirth}
+                  value={updatingProfile.dateOfBirth}
                   name="dateOfBirth"
                   onChange={handleProfileUpdate}
                 />
@@ -220,7 +234,7 @@ export default function User() {
                   id="gender"
                   name="gender"
                   required
-                  value={profile.gender}
+                  value={updatingProfile.gender}
                   onChange={handleGenderChange}
                 >
                   <option key="male" value="MALE">
