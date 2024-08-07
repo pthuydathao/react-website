@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import FormInput from "../../components/forms/FormInput";
+import { useHistory } from "react-router-dom";
+import { useAuth } from "./AuthContext";
 
 import "./Authenticate.css";
 import axios from "axios";
@@ -11,6 +13,8 @@ const Authenticate = () => {
     email: "",
     password: "",
   });
+  const history = useHistory();
+  const { login } = useAuth();
 
   const updateAuthenticateForm = (event) => {
     setAuthenticateForm({
@@ -24,11 +28,18 @@ const Authenticate = () => {
   const sendAuthenticateRequest = async (event) => {
     event.preventDefault();
     const URL = `${process.env.REACT_APP_API_URL}/auth/authenticate`;
-    const response = await axios.post(URL, authenticateForm);
-    console.log("response:", response);
-    const token = response.data.data.token;
-    // TODO: store token and direct back to home
-    console.log("token:", token);
+    try {
+      const response = await axios.post(URL, authenticateForm);
+      const token = response.data.data.token;
+      sessionStorage.setItem("token", token);
+      login(token);
+      history.push("/");
+    } catch (error) {
+      setAuthenticateRequestError(
+        error.response?.data?.message ||
+          "Login failed! Invalid email or password"
+      );
+    }
   };
 
   return (
@@ -44,6 +55,7 @@ const Authenticate = () => {
           <div className="form-fields-container">
             <FormInput
               id="email"
+              name="email"
               label="Email"
               type="email"
               placeholder="Enter email"
@@ -53,6 +65,7 @@ const Authenticate = () => {
             />
             <FormInput
               id="password"
+              name="password"
               label="Password"
               type="password"
               placeholder="Enter password"

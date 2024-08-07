@@ -2,12 +2,8 @@ import { useState } from "react";
 import axios from "axios";
 import "./Authenticate.css";
 import FormInput from "../../components/forms/FormInput";
-import GenderInput from "../../components/forms/GenderInput";
-import { formatInTimeZone } from "date-fns-tz";
-
-const FormatUTCDate = (date) => {
-  return formatInTimeZone(date, "UTC", "EEE MMM dd yyyy HH:mm:ss 'GMT'XXX");
-};
+import { useHistory } from "react-router-dom";
+import { useAuth } from "./AuthContext";
 
 const RegisterForm = () => {
   const [authenticateRequestError, setAuthenticateRequestError] = useState("");
@@ -18,10 +14,12 @@ const RegisterForm = () => {
     email: "",
     password: "",
     dateOfBirth: new Date(),
-    gender: "MALE", // Set an initial value for gender
+    gender: "MALE",
     phone: "",
     address: "",
   });
+  const history = useHistory();
+  const { login } = useAuth();
 
   const updateRegisterForm = (event) => {
     setRegisterForm({
@@ -35,9 +33,17 @@ const RegisterForm = () => {
   const sendRegisterRequest = async (event) => {
     event.preventDefault();
     const URL = `${process.env.REACT_APP_API_URL}/auth/register`;
-    console.log("payload:", registerForm);
-    const response = await axios.post(URL, registerForm);
-    console.log("response:", response);
+    try {
+      const response = await axios.post(URL, registerForm);
+      const token = response.data.data.token;
+      sessionStorage.setItem("token", token);
+      login(token);
+      history.push("/");
+    } catch (error) {
+      console.log("err:", error);
+      console.log("detail:", error.response?.data?.detail);
+      setAuthenticateRequestError(error.response?.data?.detail);
+    }
   };
 
   return (
