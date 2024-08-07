@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import FormInput from "../../components/forms/FormInput";
 
 import "./Authenticate.css";
+import axios from "axios";
 
 const Authenticate = () => {
   const [authenticateRequestError, setAuthenticateRequestError] = useState("");
@@ -22,6 +23,12 @@ const Authenticate = () => {
 
   const sendAuthenticateRequest = async (event) => {
     event.preventDefault();
+    const URL = `${process.env.REACT_APP_API_URL}/auth/authenticate`;
+    const response = await axios.post(URL, authenticateForm);
+    console.log("response:", response);
+    const token = response.data.data.token;
+    // TODO: store token and direct back to home
+    console.log("token:", token);
   };
 
   return (

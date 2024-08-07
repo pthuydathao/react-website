@@ -4,10 +4,12 @@ const GenderInput = (payload) => {
       <label htmlFor="gender">
         {payload.label} <span className="required-field-indicator">*</span>
       </label>
-      <select id={payload.id} name={payload.id} required>
-        <option value="" disabled selected>
-          Select your gender
-        </option>
+      <select
+        id={payload.id}
+        name={payload.id}
+        required
+        onChange={payload.onChange}
+      >
         <option key="male" value="Male">
           Male
         </option>

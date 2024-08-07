@@ -11,7 +11,7 @@ const FormInput = (payload) => {
       </label>
       <input
         id={payload.id}
-        name={payload.id}
+        name={payload.name}
         type={payload.type}
         placeholder={payload.placeholder}
         onChange={payload.onChange}

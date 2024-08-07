@@ -1,8 +1,13 @@
 import { useState } from "react";
-
+import axios from "axios";
 import "./Authenticate.css";
 import FormInput from "../../components/forms/FormInput";
 import GenderInput from "../../components/forms/GenderInput";
+import { formatInTimeZone } from "date-fns-tz";
+
+const FormatUTCDate = (date) => {
+  return formatInTimeZone(date, "UTC", "EEE MMM dd yyyy HH:mm:ss 'GMT'XXX");
+};
 
 const RegisterForm = () => {
   const [authenticateRequestError, setAuthenticateRequestError] = useState("");
@@ -12,8 +17,8 @@ const RegisterForm = () => {
     lastName: "",
     email: "",
     password: "",
-    dob: new Date(),
-    gender: "",
+    dateOfBirth: new Date(),
+    gender: "MALE", // Set an initial value for gender
     phone: "",
     address: "",
   });
@@ -27,8 +32,12 @@ const RegisterForm = () => {
     setAuthenticateRequestError("");
   };
 
-  const sendRegisterRequest = async () => {
-    return;
+  const sendRegisterRequest = async (event) => {
+    event.preventDefault();
+    const URL = `${process.env.REACT_APP_API_URL}/auth/register`;
+    console.log("payload:", registerForm);
+    const response = await axios.post(URL, registerForm);
+    console.log("response:", response);
   };
 
   return (
@@ -44,6 +53,7 @@ const RegisterForm = () => {
           <div className="form-fields-container">
             <FormInput
               id="first-name"
+              name="firstName"
               label="First name"
               type="text"
               placeholder="First name"
@@ -52,6 +62,7 @@ const RegisterForm = () => {
             />
             <FormInput
               id="last-name"
+              name="lastName"
               label="Last name"
               type="text"
               placeholder="Last name"
@@ -59,7 +70,17 @@ const RegisterForm = () => {
               isRequired={true}
             />
             <FormInput
+              id="citizen-id"
+              name="citizenId"
+              label="Citizen ID"
+              type="number"
+              placeholder="Citizen ID"
+              onChange={updateRegisterForm}
+              isRequired={true}
+            />
+            <FormInput
               id="email"
+              name="email"
               label="Email"
               type="email"
               placeholder="Email"
@@ -68,6 +89,7 @@ const RegisterForm = () => {
             />
             <FormInput
               id="password"
+              name="password"
               label="Password"
               type="password"
               placeholder="Password"
@@ -76,15 +98,39 @@ const RegisterForm = () => {
             />
             <FormInput
               id="dob"
+              name="dateOfBirth"
               label="Date of birth"
               type="date"
               placeholder="Date of birth"
               onChange={updateRegisterForm}
               isRequired={true}
             />
-            <GenderInput id="gender" label="Gender" />
+            <div className="form-input">
+              <label htmlFor="gender">
+                Gender
+                <span className="required-field-indicator">*</span>
+              </label>
+              <select
+                id="gender"
+                name="gender"
+                required
+                value={registerForm.gender}
+                onChange={updateRegisterForm}
+              >
+                <option key="male" value="MALE">
+                  MALE
+                </option>
+                <option key="female" value="FEMALE">
+                  FEMALE
+                </option>
+                <option key="other" value="OTHER">
+                  OTHER
+                </option>
+              </select>
+            </div>
             <FormInput
               id="phone"
+              name="phone"
               label="Phone"
               type="tel"
               placeholder="Phone number"
@@ -93,6 +139,7 @@ const RegisterForm = () => {
             />
             <FormInput
               id="address"
+              name="address"
               label="Address"
               type="text"
               placeholder="Address"
