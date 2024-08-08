@@ -21,7 +21,6 @@ export default function Home() {
       logout();
       history.push("/login");
     }
-    console.log("user:", response.data);
   }, []);
 
   return (

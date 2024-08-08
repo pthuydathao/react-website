@@ -80,7 +80,6 @@ export default function User() {
     };
     const response = await UpdateUser(user.id, payload, token);
     alert("Update success!");
-    console.log("udpated profile:", updatingProfile);
     setProfile(updatingProfile);
     setUpdatingProfile(updatingProfile);
   };

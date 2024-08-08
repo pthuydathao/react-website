@@ -11,26 +11,26 @@ export default function RequestList() {
     let colorClass = "";
 
     switch (type) {
-    case "Pending":
-      colorClass = "pending";
-      break;
-    case "Canceled":
-      colorClass = "canceled";
-      break;
-    case "In Progress":
-      colorClass = "in-progress";
+      case "Pending":
+        colorClass = "pending";
+        break;
+      case "Canceled":
+        colorClass = "canceled";
+        break;
+      case "In Progress":
+        colorClass = "in-progress";
         break;
       case "Completed":
-      colorClass = "completed";
-      break;
-    // default:
-    //   colorClass = "default";
-    //   break;
-  }
+        colorClass = "completed";
+        break;
+      // default:
+      //   colorClass = "default";
+      //   break;
+    }
 
     return <button className={`requestButton ${colorClass}`}>{type}</button>;
-   };
-  
+  };
+
   const [data, setData] = useState(requestRows);
 
   const handleDelete = (id) => {
@@ -45,12 +45,12 @@ export default function RequestList() {
       )
     );
   };
-  
+
   const columns = [
     { field: "id", headerName: "ID", width: 90 },
     {
       field: "employee",
-      headerName: "Employee",
+      headerName: "Full name",
       width: 200,
       renderCell: (params) => {
         return (
@@ -69,13 +69,12 @@ export default function RequestList() {
       renderCell: (params) => {
         return (
           <>
-          <Button type={params.row.status} />
-            
+            <Button type={params.row.status} />
           </>
-          );
-      }
+        );
+      },
     },
-    
+
     { field: "type", headerName: "Request Type", width: 160 },
 
     {
@@ -99,7 +98,6 @@ export default function RequestList() {
         );
       },
     },
-
 
     {
       field: "action",

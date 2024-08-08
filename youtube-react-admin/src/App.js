@@ -20,6 +20,7 @@ import RegisterForm from "./pages/auth/Register";
 import { AuthProvider, useAuth } from "./pages/auth/AuthContext";
 import ProtectedRoute from "./pages/auth/ProtectedRoute";
 import Authenticate from "./pages/auth/Authenticate";
+import { HomeTwoTone } from "@material-ui/icons";
 
 function App() {
   return (
@@ -40,17 +41,14 @@ function App() {
                 <ProtectedRoute exact path="/" component={Home} />
                 <ProtectedRoute path="/requests" component={RequestList} />
                 <ProtectedRoute path="/user" component={User} />
-                <ProtectedRoute path="/newRequest" component={NewRequest} />
+                <ProtectedRoute path="/new-equest" component={NewRequest} />
                 <ProtectedRoute
-                  path="/requestDetail"
+                  path="/request-detail"
                   component={RequestDetail}
                 />
-                <ProtectedRoute path="/products" component={ProductList} />
-                <ProtectedRoute
-                  path="/product/:productId"
-                  component={Product}
-                />
-                <ProtectedRoute path="/newproduct" component={NewProduct} />
+                <ProtectedRoute path="/devices/:deviceId" component={Product} />
+                <ProtectedRoute exact path="/devices" component={ProductList} />
+                <ProtectedRoute path="/new-product" component={NewProduct} />
               </Switch>
             </div>
           </Route>

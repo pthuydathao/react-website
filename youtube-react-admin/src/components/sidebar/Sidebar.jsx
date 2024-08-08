@@ -27,10 +27,10 @@ export default function Sidebar() {
           <h3 className="sidebarTitle">Dashboard</h3>
           <ul className="sidebarList">
             <Link to="/" className="link">
-            <li className="sidebarListItem active">
-              <HomeOutlined className="sidebarIcon" />
-              Home
-            </li>
+              <li className="sidebarListItem active">
+                <HomeOutlined className="sidebarIcon" />
+                Home
+              </li>
             </Link>
             <Link to="/requests" className="link">
               <li className="sidebarListItem">
@@ -38,22 +38,20 @@ export default function Sidebar() {
                 Requests
               </li>
             </Link>
-            <Link to="/products" className="link">
+            <Link to="/devices" className="link">
               <li className="sidebarListItem">
                 <Devices className="sidebarIcon" />
                 Devices
               </li>
             </Link>
             <Link to="/newRequest" className="link">
-            <li className="sidebarListItem">
+              <li className="sidebarListItem">
                 <Add className="sidebarIcon" />
                 Create new request
-            </li>
+              </li>
             </Link>
           </ul>
         </div>
-        
-        
       </div>
     </div>
   );
