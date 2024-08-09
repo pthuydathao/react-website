@@ -11,11 +11,22 @@ import { useAuth } from "../auth/AuthContext";
 import { GetAllRooms } from "../../services/rooms/room.service";
 
 import { GetAllDevices } from "../../services/devices/device.service";
+import { CreateNewRequest } from "../../services/requests/request.service";
 
 export default function NewRequest() {
+  const [requestType, setRequestType] = useState("");
+  const handleRequestTypeChange = (event) => {
+    setRequestType(event.target.value);
+  };
+
   const [ownershipType, setOwnershipType] = useState("");
   const handleOwnershipTypeChange = (event) => {
-    setOwnershipType(event.target.value);
+    if (event.target.value == "null") {
+      setOwnershipType("");
+    } else {
+      setOwnershipType(event.target.value);
+    }
+
     setUpdatingAssignedEmployee({
       fullName: "",
       id: "",
@@ -29,7 +40,9 @@ export default function NewRequest() {
   };
 
   const [deviceDescription, setDeviceDescription] = useState("");
-  const handleDeviceDescriptionChange = () => {};
+  const handleDeviceDescriptionChange = (event) => {
+    setDeviceDescription(event.target.value);
+  };
 
   const [updatingDevice, setUpdatingDevice] = useState({
     deviceNameNSerialNumber: "",
@@ -103,17 +116,46 @@ export default function NewRequest() {
     });
   };
 
-  const handleFormUpdate = (event) => {
+  const handleFormUpdate = async (event) => {
     event.preventDefault();
-    const payload = {
-      requestType: ownershipType,
+    let payload = {
+      requestType: requestType,
       beforeDescription: deviceDescription,
-      employeeId: updatingAssignedEmployee.id,
-      
+      deviceId: updatingDevice.id,
+      requestBy: `${user.id}`,
     };
+    if (
+      Object.values(payload).includes("") ||
+      Object.values(payload).includes(null)
+    ) {
+      alert("Must select request type, a device, fill out device description");
+      return;
+    }
+
+    if (updatingAssignedEmployee.id != "") {
+      payload = {
+        ...payload,
+        employeeId: updatingAssignedEmployee.id,
+      };
+    }
+    if (updatingRoom.id != "") {
+      payload = {
+        ...payload,
+        roomId: updatingRoom.id,
+      };
+    }
+
+    // console.log("payload:", payload);
+    const response = await CreateNewRequest(token, payload);
+    if ("data" in response) {
+      alert("Request created successfully!");
+    } else {
+      alert("Error:", response.error);
+    }
   };
 
   const [token, setToken] = useState("");
+  const [user, setUser] = useState({});
   const history = useHistory();
   const { logout } = useAuth();
   const [employeeList, setEmployeeList] = useState([]);
@@ -129,6 +171,7 @@ export default function NewRequest() {
       } else {
         const userData = response.data;
         setToken(token);
+        setUser(userData);
 
         const employees = await GetAllUsers(token);
         setEmployeeList(employees);
@@ -146,7 +189,7 @@ export default function NewRequest() {
   return (
     <div className="newRequest">
       <h1 className="newRequestTitle">New Request</h1>
-      <form className="newRequestForm">
+      <form className="newRequestForm" onSubmit={handleFormUpdate}>
         <div className="newRequestItem">
           <label>Loại yêu cầu:</label>
           <div className="newRequestType">
@@ -154,10 +197,17 @@ export default function NewRequest() {
               type="radio"
               name="type"
               id="maintenance"
-              value="maintenance"
+              value="MAINTENANCE"
+              onChange={handleRequestTypeChange}
             />
             <label htmlFor="maintenance">Bảo trì</label>
-            <input type="radio" name="type" id="repair" value="repair" />
+            <input
+              type="radio"
+              name="type"
+              id="repair"
+              value="REPAIRMENT"
+              onChange={handleRequestTypeChange}
+            />
             <label htmlFor="repair">Sửa chữa</label>
           </div>
         </div>
@@ -188,6 +238,7 @@ export default function NewRequest() {
           <input
             type="text"
             placeholder="Mô tả"
+            value={deviceDescription}
             onChange={handleDeviceDescriptionChange}
           />
         </div>
@@ -210,10 +261,17 @@ export default function NewRequest() {
               onChange={handleOwnershipTypeChange}
             />
             <label htmlFor="room">Phòng</label>
+            <input
+              type="radio"
+              name="ownership"
+              id="room"
+              value="null"
+              onChange={handleOwnershipTypeChange}
+            />
+            <label htmlFor="room">Bỏ chọn</label>
           </div>
         </div>
 
-        {/* Conditionally render based on ownershipType */}
         {ownershipType === "employee" && (
           <div className="newRequestItem employee-selection">
             <label>Select employee</label>
