@@ -252,36 +252,38 @@ export default function Product() {
               <span className="productInfoKey">Description:</span>
               <span className="productInfoValue">{device.description}</span>
             </div>
-            {device.assignedDate && (
-              <>
-                <div className="productInfoItem">
-                  <span className="productInfoKey">Assigned Date:</span>
-                  <span className="productInfoValue">
-                    {device.assignedDate}
-                  </span>
-                </div>
-                <div className="productInfoItem">
-                  <span className="productInfoKey">Assignee:</span>
-                  <span className="productInfoValue">
-                    {`${device.assignee.firstName} ${device.assignee.lastName}`}
-                  </span>
-                </div>
-                <div className="productInfoItem">
-                  <span className="productInfoKey">Assigned to:</span>
-                  <span className="productInfoValue">
-                    {device.employee != null
-                      ? `${device.employee.firstName} ${device.employee.lastName}`
-                      : `Room ${device.room.name}`}
-                  </span>
-                </div>
-                <div className="productInfoItem">
-                  <span className="productInfoKey">Status:</span>
-                  <span className="productInfoValue">
-                    {device.deviceStatus}
-                  </span>
-                </div>
-              </>
-            )}
+            {device.assignedDate &&
+              (device.employee || device.room) &&
+              device.assignee && (
+                <>
+                  <div className="productInfoItem">
+                    <span className="productInfoKey">Assigned Date:</span>
+                    <span className="productInfoValue">
+                      {device.assignedDate}
+                    </span>
+                  </div>
+                  <div className="productInfoItem">
+                    <span className="productInfoKey">Assignee:</span>
+                    <span className="productInfoValue">
+                      {`${device.assignee.firstName} ${device.assignee.lastName}`}
+                    </span>
+                  </div>
+                  <div className="productInfoItem">
+                    <span className="productInfoKey">Assigned to:</span>
+                    <span className="productInfoValue">
+                      {device.employee != null
+                        ? `${device.employee.firstName} ${device.employee.lastName}`
+                        : `Room ${device.room.name}`}
+                    </span>
+                  </div>
+                  <div className="productInfoItem">
+                    <span className="productInfoKey">Status:</span>
+                    <span className="productInfoValue">
+                      {device.deviceStatus}
+                    </span>
+                  </div>
+                </>
+              )}
           </div>
         </div>
       </div>

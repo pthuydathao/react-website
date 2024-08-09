@@ -38,10 +38,10 @@ function App() {
             <div className="container">
               <Sidebar />
               <Switch>
-                <ProtectedRoute exact path="/" component={Home} />
+                <ProtectedRoute exact path="/" component={User} />
                 <ProtectedRoute path="/requests" component={RequestList} />
-                <ProtectedRoute path="/user" component={User} />
-                <ProtectedRoute path="/new-equest" component={NewRequest} />
+                {/* <ProtectedRoute path="/user" component={User} /> */}
+                <ProtectedRoute path="/new-request" component={NewRequest} />
                 <ProtectedRoute
                   path="/request-detail"
                   component={RequestDetail}

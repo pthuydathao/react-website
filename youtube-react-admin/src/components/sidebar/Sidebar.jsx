@@ -44,7 +44,7 @@ export default function Sidebar() {
                 Devices
               </li>
             </Link>
-            <Link to="/newRequest" className="link">
+            <Link to="/new-request" className="link">
               <li className="sidebarListItem">
                 <Add className="sidebarIcon" />
                 Create new request
