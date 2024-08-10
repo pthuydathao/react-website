@@ -10,6 +10,7 @@ import { useAuth } from "../auth/AuthContext";
 import {
   GetRequestById,
   UpdateMaintainingEmployee,
+  UpdateRequest,
 } from "../../services/requests/request.service";
 import { GetDeviceById } from "../../services/devices/device.service";
 
@@ -17,6 +18,17 @@ export default function RequestDetail() {
   const [requestStatus, setRequestStatus] = useState("");
   const handleRequestStatusChange = (event) => {
     setRequestStatus(event.target.value);
+  };
+
+  const [descriptions, setDescriptions] = useState({
+    before: "",
+    after: "",
+  });
+  const handleDescriptionsChanges = (event) => {
+    setDescriptions({
+      ...descriptions,
+      [event.target.name]: event.target.value,
+    });
   };
 
   const [maintainingEmployee, setMaintainingEmployee] = useState({
@@ -47,8 +59,25 @@ export default function RequestDetail() {
     }
   };
 
-  const handleRequestFormSubmit = (event) => {
+  const handleRequestFormSubmit = async (event) => {
     event.preventDefault();
+
+    const payload = {
+      id: `${request.id}`,
+      requestType: request.requestType,
+      beforeDescription: descriptions.before,
+      afterDescription: descriptions.after,
+      status: requestStatus,
+      completeDate: `${requestStatus == "COMPLETED" ? new Date() : null}`,
+    };
+    // console.log("payload:", payload);
+    const response = await UpdateRequest(token, payload);
+    if ("data" in response) {
+      // console.log("res:", response);
+      alert("Update success!");
+    } else {
+      alert("Error:", request.error);
+    }
   };
 
   const [user, setUser] = useState({});
@@ -81,6 +110,10 @@ export default function RequestDetail() {
             id: `${request.data.maintainBy.id}`,
           });
         }
+        setDescriptions({
+          before: request.data.beforeDescription,
+          after: request.data.afterDescription,
+        });
 
         const device = await GetDeviceById(token, request.data?.device?.id);
         setDevice(device.data);
@@ -144,6 +177,25 @@ export default function RequestDetail() {
                   </option>
                 </select>
               </div>
+              {request?.completedDate != null ? (
+                <div className="requestShowInfo">
+                  <label
+                    htmlFor="complete-date"
+                    className="requestShowInfoTitle"
+                  >
+                    <strong>Complete at:</strong>
+                  </label>
+                  <input
+                    className="requestReadOnlyInput"
+                    id="complete-date"
+                    type="date"
+                    value={`${request?.completedDate}`}
+                    readOnly
+                  />
+                </div>
+              ) : (
+                <></>
+              )}
               <div className="requestShowInfo">
                 <label htmlFor="maintain-by" className="requestShowInfoTitle">
                   <strong>
@@ -185,29 +237,9 @@ export default function RequestDetail() {
                   employee
                 </button>
               </div>
-              {request?.completeDate != null ? (
-                <div className="requestShowInfo">
-                  <label
-                    htmlFor="complete-date"
-                    className="requestShowInfoTitle"
-                  >
-                    <strong>Complete at:</strong>
-                  </label>
-                  <input
-                    className="requestReadOnlyInput"
-                    id="complete-date"
-                    type="date"
-                    value={`${request?.completeDate}`}
-                    readOnly
-                  />
-                </div>
-              ) : (
-                <></>
-              )}
               <span className="requestShowTitle">
-                Device information
-                <a href={`/devices/${device.id}`} className="more-detail-link">
-                  Details
+                <a className="requestShowTitle" href={`/devices/${device.id}`}>
+                  Device information
                 </a>
               </span>
               <div className="requestShowInfo">
@@ -247,7 +279,7 @@ export default function RequestDetail() {
                 />
               </div>
 
-              <span className="requestShowTitle">Device's status</span>
+              <span className="requestShowTitle">Description</span>
               <div className="requestShowInfo">
                 <label
                   htmlFor="before-description"
@@ -258,7 +290,9 @@ export default function RequestDetail() {
                 <input
                   type="text"
                   id="before-description"
-                  placeholder={request?.beforeDescription}
+                  name="before"
+                  placeholder={descriptions.before}
+                  onChange={handleDescriptionsChanges}
                 />
               </div>
               <div className="requestShowInfo">
@@ -271,7 +305,10 @@ export default function RequestDetail() {
                 <input
                   type="text"
                   id="after-description"
-                  placeholder={request?.afterDescription}
+                  name="after"
+                  placeholder={descriptions.after}
+                  value={descriptions.after || ""}
+                  onChange={handleDescriptionsChanges}
                 />
               </div>
               <button>Update</button>
