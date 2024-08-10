@@ -66,8 +66,8 @@
   font-weight: 300;
 }
 
-.requestShowBottom{
-    margin-top: 20px;
+.requestShowBottom {
+  margin-top: 20px;
 }
 
 .requestShowTitle {
@@ -76,79 +76,144 @@
   color: rgb(175, 170, 170);
 }
 
-.requestShowInfo{
-    display: flex;
-    align-items: center;
-    margin: 20px 0px;
-    color: #444;
+.requestShowInfo {
+  display: flex;
+  align-items: center;
+  margin: 20px 0px;
+  color: #444;
 }
 
-.requestShowIcon{
-    font-size: 16px !important;
+.requestShowIcon {
+  font-size: 16px !important;
 }
 
-.requestShowInfoTitle{
-    margin-left: 10px;
+.requestShowInfoTitle {
+  margin-left: 10px;
+  width: 150px;
 }
 
-.requestUpdateTitle{
-    font-size: 24px;
-    font-weight: 600;
+.requestUpdateTitle {
+  font-size: 24px;
+  font-weight: 600;
 }
 
-.requestUpdateForm{
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
+.requestUpdateForm {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
 }
 
-.requestUpdateItem{
-    display: flex;
-    flex-direction: column;
-    margin-top: 10px;
+.requestUpdateItem {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
 }
 
-.requestUpdateItem>label{
-    margin-bottom: 5px;
-    font-size: 14px;
+.requestUpdateItem > label {
+  margin-bottom: 5px;
+  font-size: 14px;
 }
 
-.requestUpdateInput{
-    border: none;
-    width: 250px;
-    height: 30px;
-    border-bottom: 1px solid gray;
+.requestUpdateInput {
+  border: none;
+  width: 250px;
+  height: 30px;
+  border-bottom: 1px solid gray;
 }
 
-.requestUpdateRight{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+.requestUpdateRight {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
-.userUpdateUpload{
-    display: flex;
-    align-items: center;
+.userUpdateUpload {
+  display: flex;
+  align-items: center;
 }
 
-.userUpdateImg{
-    width: 100px;
-    height: 100px;
-    border-radius: 10px;
-    object-fit: cover;
-    margin-right: 20px;
+.userUpdateImg {
+  width: 100px;
+  height: 100px;
+  border-radius: 10px;
+  object-fit: cover;
+  margin-right: 20px;
 }
 
-.userUpdateIcon{
-    cursor: pointer;
+.userUpdateIcon {
+  cursor: pointer;
 }
 
-.userUpdateButton{
-    border-radius: 5px;
-    border: none;
-    padding: 5px;
-    cursor: pointer;
-    background-color: darkblue;
-    color: white;
-    font-weight: 600;
+.userUpdateButton {
+  border-radius: 5px;
+  border: none;
+  padding: 5px;
+  cursor: pointer;
+  background-color: darkblue;
+  color: white;
+  font-weight: 600;
+}
+
+input {
+  margin-left: 10px;
+  border: 1px solid white;
+  background-color: transparent;
+  font-size: 14px;
+  color: #444;
+  outline: none;
+  width: 500px;
+}
+
+input:focus {
+  border-bottom: 1px solid #444;
+}
+
+.requestReadOnlyInput {
+  margin-left: 10px;
+  border: none;
+  background-color: transparent;
+  font-size: 14px;
+  color: #444;
+  outline: none;
+  pointer-events: none;
+}
+
+.requestReadOnlyInput:focus {
+  border: none;
+  outline: none;
+}
+
+.more-detail-link {
+  margin-left: 5px;
+  color: rgba(175, 170, 170, 0.5);
+}
+
+.more-detail-link:hover {
+  margin-left: 5px;
+  color: rgba(175, 170, 170, 0.8);
+}
+
+.request-form {
+  width: 500px;
+}
+
+.requestStatusSelect {
+  text-align: center;
+  border: 1px solid rgba(175, 170, 170, 0.2);
+  background-color: transparent;
+  font-size: 14px;
+  color: #444;
+  outline: none;
+  padding: 5px 10px;
+  width: 100%;
+}
+
+.requestStatusSelect:hover {
+  border: 1px solid rgba(175, 170, 170, 0.8);
+}
+
+.update-maintaining-employee button {
+  /* align-items: center; */
+  width: 100%;
+  text-align: center;
 }

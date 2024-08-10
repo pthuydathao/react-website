@@ -39,11 +39,14 @@ function App() {
               <Sidebar />
               <Switch>
                 <ProtectedRoute exact path="/" component={User} />
-                <ProtectedRoute path="/requests" component={RequestList} />
-                {/* <ProtectedRoute path="/user" component={User} /> */}
+                <ProtectedRoute
+                  exact
+                  path="/requests"
+                  component={RequestList}
+                />
                 <ProtectedRoute path="/new-request" component={NewRequest} />
                 <ProtectedRoute
-                  path="/request-detail"
+                  path="/request-detail/:requestId"
                   component={RequestDetail}
                 />
                 <ProtectedRoute path="/devices/:deviceId" component={Product} />
