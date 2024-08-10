@@ -145,13 +145,13 @@ export default function NewRequest() {
       };
     }
 
-    if (requestType == "LIQUIDATION") {
-      payload = {
-        ...payload,
-        roomId: null,
-        employeeId: null,
-      };
-    }
+    // if (requestType == "LIQUIDATION") {
+    //   payload = {
+    //     ...payload,
+    //     roomId: null,
+    //     employeeId: null,
+    //   };
+    // }
 
     const response = await CreateNewRequest(token, payload);
     if ("data" in response) {
