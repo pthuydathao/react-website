@@ -182,66 +182,75 @@ export default function RequestDetail() {
                   </option>
                 </select>
               </div>
-              {request?.completedDate != null ? (
-                <div className="requestShowInfo">
-                  <label
-                    htmlFor="complete-date"
-                    className="requestShowInfoTitle"
-                  >
-                    <strong>Complete at:</strong>
-                  </label>
-                  <input
-                    className="requestReadOnlyInput"
-                    id="complete-date"
-                    type="date"
-                    value={`${request?.completedDate}`}
-                    readOnly
-                  />
-                </div>
+              {request?.requestType != "LIQUIDATION" ? (
+                <>
+                  {request?.completedDate != null ? (
+                    <div className="requestShowInfo">
+                      <label
+                        htmlFor="complete-date"
+                        className="requestShowInfoTitle"
+                      >
+                        <strong>Complete at:</strong>
+                      </label>
+                      <input
+                        className="requestReadOnlyInput"
+                        id="complete-date"
+                        type="date"
+                        value={`${request?.completedDate}`}
+                        readOnly
+                      />
+                    </div>
+                  ) : (
+                    <></>
+                  )}
+                  <div className="requestShowInfo">
+                    <label
+                      htmlFor="maintain-by"
+                      className="requestShowInfoTitle"
+                    >
+                      <strong>
+                        {request.requestType == "MAINTENANCE"
+                          ? "Maintained "
+                          : "Repaired "}
+                        by:
+                      </strong>
+                    </label>
+                    <select
+                      className="requestStatusSelect"
+                      id="maintain-by"
+                      value={maintainingEmployee.selectValue}
+                      onChange={handleMaintainingEmployeeChange}
+                    >
+                      <option key="-1" value="null">
+                        Select{" "}
+                        {request.requestType == "MAINTENANCE"
+                          ? "maintaining "
+                          : "repairing "}{" "}
+                        employee
+                      </option>
+                      {employeeList.map((employee) => (
+                        <option
+                          key={employee.id}
+                          value={`${employee.firstName} ${employee.lastName} - ${employee.id}`}
+                        >
+                          {`${employee.firstName} ${employee.lastName} - ${employee.id}`}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="requestShowInfo update-maintaining-employee">
+                    <button onClick={handleMaintainingEmployeeUpdate}>
+                      Update{" "}
+                      {request.requestType == "MAINTENANCE"
+                        ? "maintaining "
+                        : "repairing "}{" "}
+                      employee
+                    </button>
+                  </div>
+                </>
               ) : (
                 <></>
               )}
-              <div className="requestShowInfo">
-                <label htmlFor="maintain-by" className="requestShowInfoTitle">
-                  <strong>
-                    {request.requestType == "MAINTENANCE"
-                      ? "Maintained "
-                      : "Repaired "}
-                    by:
-                  </strong>
-                </label>
-                <select
-                  className="requestStatusSelect"
-                  id="maintain-by"
-                  value={maintainingEmployee.selectValue}
-                  onChange={handleMaintainingEmployeeChange}
-                >
-                  <option key="-1" value="null">
-                    Select{" "}
-                    {request.requestType == "MAINTENANCE"
-                      ? "maintaining "
-                      : "repairing "}{" "}
-                    employee
-                  </option>
-                  {employeeList.map((employee) => (
-                    <option
-                      key={employee.id}
-                      value={`${employee.firstName} ${employee.lastName} - ${employee.id}`}
-                    >
-                      {`${employee.firstName} ${employee.lastName} - ${employee.id}`}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div className="requestShowInfo update-maintaining-employee">
-                <button onClick={handleMaintainingEmployeeUpdate}>
-                  Update{" "}
-                  {request.requestType == "MAINTENANCE"
-                    ? "maintaining "
-                    : "repairing "}{" "}
-                  employee
-                </button>
-              </div>
               <span className="requestShowTitle">
                 <a className="requestShowTitle" href={`/devices/${device.id}`}>
                   Device information

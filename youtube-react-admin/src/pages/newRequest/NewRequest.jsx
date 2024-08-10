@@ -145,6 +145,14 @@ export default function NewRequest() {
       };
     }
 
+    if (requestType == "LIQUIDATION") {
+      payload = {
+        ...payload,
+        roomId: null,
+        employeeId: null,
+      };
+    }
+
     const response = await CreateNewRequest(token, payload);
     if ("data" in response) {
       alert("Request created successfully!");
@@ -199,6 +207,7 @@ export default function NewRequest() {
             >
               <option value="MAINTENANCE">Maintenance</option>
               <option value="REPAIRMENT">Repairment</option>
+              <option value="LIQUIDATION">Liquidation</option>
             </select>
           </div>
         </div>

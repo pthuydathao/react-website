@@ -42,7 +42,7 @@ export default function RequestList() {
         rows={data}
         disableSelectionOnClick
         columns={columns}
-        pageSize={8}
+        pageSize={20}
         checkboxSelection
       />
     </div>

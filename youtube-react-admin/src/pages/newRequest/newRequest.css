@@ -4,7 +4,6 @@
 
 .newRequestForm {
   display: block;
-  /* flex-wrap: wrap; */
 }
 
 .newRequestItem {
@@ -75,7 +74,7 @@
 }
 
 .custom-select option {
-  text-align: center; /* Ensures that options are also centered */
+  text-align: center;
 }
 
 .custom-select:focus {
