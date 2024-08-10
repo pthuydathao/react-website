@@ -12,6 +12,7 @@ import { GetAllRooms } from "../../services/rooms/room.service";
 
 import { GetAllDevices } from "../../services/devices/device.service";
 import { CreateNewRequest } from "../../services/requests/request.service";
+import { CreateMaintenanceLog } from "../../services/maintenance-log/MaintenanceLog.service";
 
 export default function NewRequest() {
   const [requestType, setRequestType] = useState("");
@@ -145,7 +146,6 @@ export default function NewRequest() {
       };
     }
 
-    // console.log("payload:", payload);
     const response = await CreateNewRequest(token, payload);
     if ("data" in response) {
       alert("Request created successfully!");

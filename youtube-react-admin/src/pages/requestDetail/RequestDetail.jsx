@@ -7,7 +7,10 @@ import {
 import { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
-import { GetRequestById } from "../../services/requests/request.service";
+import {
+  GetRequestById,
+  UpdateMaintainingEmployee,
+} from "../../services/requests/request.service";
 import { GetDeviceById } from "../../services/devices/device.service";
 
 export default function RequestDetail() {
@@ -27,6 +30,25 @@ export default function RequestDetail() {
       selectValue: selectedValue,
       id: id,
     });
+  };
+
+  const handleMaintainingEmployeeUpdate = async (event) => {
+    event.preventDefault();
+    const payload = {
+      requestId: `${request.id}`,
+      maintainById: maintainingEmployee.id,
+    };
+    console.log("payload:", payload);
+    const response = await UpdateMaintainingEmployee(token, payload);
+    if ("data" in response) {
+      alert("Update success!");
+    } else {
+      alert("Error:", request.error);
+    }
+  };
+
+  const handleRequestFormSubmit = (event) => {
+    event.preventDefault();
   };
 
   const [user, setUser] = useState({});
@@ -52,6 +74,13 @@ export default function RequestDetail() {
         const request = await GetRequestById(token, requestId);
         setRequest(request.data);
         setRequestStatus(request.data.status);
+        console.log("request:", request.data);
+        if (request.data.maintainBy != null) {
+          setMaintainingEmployee({
+            selectValue: `${request.data.maintainBy.firstName} ${request.data.maintainBy.lastName} - ${request.data.maintainBy.id}`,
+            id: `${request.data.maintainBy.id}`,
+          });
+        }
 
         const device = await GetDeviceById(token, request.data?.device?.id);
         setDevice(device.data);
@@ -71,7 +100,7 @@ export default function RequestDetail() {
       <div className="requestContainer">
         <div className="requestShow">
           <div className="requestShowBottom">
-            <form className="request-form" action="">
+            <form className="request-form" onSubmit={handleRequestFormSubmit}>
               <span className="requestShowTitle">Process</span>
               <div className="requestShowInfo">
                 <label
@@ -115,41 +144,47 @@ export default function RequestDetail() {
                   </option>
                 </select>
               </div>
-              {request?.requestType == "MAINTENANCE" ? (
-                <>
-                  <div className="requestShowInfo">
-                    <label
-                      htmlFor="maintain-by"
-                      className="requestShowInfoTitle"
+              <div className="requestShowInfo">
+                <label htmlFor="maintain-by" className="requestShowInfoTitle">
+                  <strong>
+                    {request.requestType == "MAINTENANCE"
+                      ? "Maintained "
+                      : "Repaired "}
+                    by:
+                  </strong>
+                </label>
+                <select
+                  className="requestStatusSelect"
+                  id="maintain-by"
+                  value={maintainingEmployee.selectValue}
+                  onChange={handleMaintainingEmployeeChange}
+                >
+                  <option key="-1" value="null">
+                    Select{" "}
+                    {request.requestType == "MAINTENANCE"
+                      ? "maintaining "
+                      : "repairing "}{" "}
+                    employee
+                  </option>
+                  {employeeList.map((employee) => (
+                    <option
+                      key={employee.id}
+                      value={`${employee.firstName} ${employee.lastName} - ${employee.id}`}
                     >
-                      <strong>Maintained by:</strong>
-                    </label>
-                    <select
-                      className="requestStatusSelect"
-                      id="maintain-by"
-                      value={maintainingEmployee.selectValue}
-                      onChange={handleMaintainingEmployeeChange}
-                    >
-                      <option key="-1" value="null">
-                        Select maintaining employee
-                      </option>
-                      {employeeList.map((employee) => (
-                        <option
-                          key={employee.id}
-                          value={`${employee.firstName} ${employee.lastName} - ${employee.id}`}
-                        >
-                          {`${employee.firstName} ${employee.lastName} - ${employee.id}`}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <div className="requestShowInfo update-maintaining-employee">
-                    <button>Update maintaining employee</button>
-                  </div>
-                </>
-              ) : (
-                <></>
-              )}
+                      {`${employee.firstName} ${employee.lastName} - ${employee.id}`}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="requestShowInfo update-maintaining-employee">
+                <button onClick={handleMaintainingEmployeeUpdate}>
+                  Update{" "}
+                  {request.requestType == "MAINTENANCE"
+                    ? "maintaining "
+                    : "repairing "}{" "}
+                  employee
+                </button>
+              </div>
               {request?.completeDate != null ? (
                 <div className="requestShowInfo">
                   <label

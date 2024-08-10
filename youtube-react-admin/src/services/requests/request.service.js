@@ -52,3 +52,18 @@ export const GetRequestById = async (token, id) => {
     };
   }
 };
+
+export const UpdateMaintainingEmployee = async (token, payload) => {
+  try {
+    const response = await axios.patch(
+      `${REQUEST_API_URL}/maintenance`,
+      payload,
+      GET_API_DEFAULT_CONFIG(token)
+    );
+    return response.data;
+  } catch (error) {
+    return {
+      error: error.response?.data?.message || "Unknown error!",
+    };
+  }
+};
