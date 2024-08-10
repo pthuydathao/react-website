@@ -55,28 +55,33 @@ export default function RequestDetail() {
     if ("data" in response) {
       alert("Update success!");
     } else {
-      alert("Error:", request.error);
+      alert("Error:", request.error || "Unknown error");
     }
   };
 
   const handleRequestFormSubmit = async (event) => {
     event.preventDefault();
 
-    const payload = {
+    let payload = {
       id: `${request.id}`,
       requestType: request.requestType,
       beforeDescription: descriptions.before,
       afterDescription: descriptions.after,
       status: requestStatus,
-      completeDate: `${requestStatus == "COMPLETED" ? new Date() : null}`,
     };
+    if (requestStatus == "COMPLETED") {
+      payload = {
+        ...payload,
+        completeDate: new Date(),
+      };
+    }
     // console.log("payload:", payload);
     const response = await UpdateRequest(token, payload);
+    // console.log("response:", response);
     if ("data" in response) {
-      // console.log("res:", response);
       alert("Update success!");
     } else {
-      alert("Error:", request.error);
+      alert("Error:", request.error || "Unknown error");
     }
   };
 
@@ -311,7 +316,9 @@ export default function RequestDetail() {
                   onChange={handleDescriptionsChanges}
                 />
               </div>
-              <button>Update</button>
+              <div className="update-maintaining-employee">
+                <button>Update</button>
+              </div>
             </form>
           </div>
         </div>

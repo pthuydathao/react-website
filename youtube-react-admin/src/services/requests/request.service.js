@@ -19,7 +19,7 @@ export const GetAllRequests = async (token) => {
     return response.data;
   } catch (error) {
     return {
-      error: error.response?.data?.message || "Unknown error!",
+      error: error.response?.data?.detail || "Unknown error!",
     };
   }
 };
@@ -34,7 +34,7 @@ export const CreateNewRequest = async (token, payload) => {
     return response.data;
   } catch (error) {
     return {
-      error: error.response?.data?.message || "Unknown error!",
+      error: error.response?.data?.detail || "Unknown error!",
     };
   }
 };
@@ -48,7 +48,7 @@ export const GetRequestById = async (token, id) => {
     return response.data;
   } catch (error) {
     return {
-      error: error.response?.data?.message || "Unknown error!",
+      error: error.response?.data?.detail || "Unknown error!",
     };
   }
 };
@@ -63,7 +63,7 @@ export const UpdateMaintainingEmployee = async (token, payload) => {
     return response.data;
   } catch (error) {
     return {
-      error: error.response?.data?.message || "Unknown error!",
+      error: error.response?.data?.detail || "Unknown error!",
     };
   }
 };
@@ -78,7 +78,7 @@ export const UpdateRequest = async (token, payload) => {
     return response.data;
   } catch (error) {
     return {
-      error: error.response?.data?.message || "Unknown error!",
+      error: error.response?.data?.detail || "Unknown error!",
     };
   }
 };
