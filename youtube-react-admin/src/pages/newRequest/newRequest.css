@@ -55,3 +55,29 @@
   margin-top: 30px;
   cursor: pointer;
 }
+
+.custom-select {
+  border: 1px solid rgba(151, 150, 150, 0.3);
+  outline: none;
+  background-color: transparent;
+  padding: 7px 2px;
+  border-radius: 5px;
+  font-size: 14px;
+  text-align: center;
+  color: #444;
+  cursor: pointer;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.custom-select:hover {
+  border: 1px solid rgba(151, 150, 150, 0.8);
+}
+
+.custom-select option {
+  text-align: center; /* Ensures that options are also centered */
+}
+
+.custom-select:focus {
+  outline: none;
+}

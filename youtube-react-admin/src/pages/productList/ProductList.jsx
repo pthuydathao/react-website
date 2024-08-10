@@ -16,10 +16,6 @@ export default function ProductList() {
   const history = useHistory();
   const { logout } = useAuth();
 
-  const handleDelete = (id) => {
-    setData(data.filter((item) => item.id !== id));
-  };
-
   const columns = [
     {
       field: "id",
@@ -92,10 +88,6 @@ export default function ProductList() {
             <Link to={`/devices/${record.id}`}>
               <button className="productListEdit">View Detail</button>
             </Link>
-            <DeleteOutline
-              className="productListDelete"
-              onClick={() => handleDelete(params.row.id)}
-            />
           </>
         );
       },

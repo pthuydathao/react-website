@@ -12,7 +12,6 @@ import { GetAllRooms } from "../../services/rooms/room.service";
 
 import { GetAllDevices } from "../../services/devices/device.service";
 import { CreateNewRequest } from "../../services/requests/request.service";
-import { CreateMaintenanceLog } from "../../services/maintenance-log/MaintenanceLog.service";
 
 export default function NewRequest() {
   const [requestType, setRequestType] = useState("");
@@ -191,30 +190,23 @@ export default function NewRequest() {
       <h1 className="newRequestTitle">New Request</h1>
       <form className="newRequestForm" onSubmit={handleFormUpdate}>
         <div className="newRequestItem">
-          <label>Loại yêu cầu:</label>
+          <label>Request type:</label>
           <div className="newRequestType">
-            <input
-              type="radio"
-              name="type"
-              id="maintenance"
-              value="MAINTENANCE"
+            <select
+              className="custom-select"
+              value={requestType}
               onChange={handleRequestTypeChange}
-            />
-            <label htmlFor="maintenance">Bảo trì</label>
-            <input
-              type="radio"
-              name="type"
-              id="repair"
-              value="REPAIRMENT"
-              onChange={handleRequestTypeChange}
-            />
-            <label htmlFor="repair">Sửa chữa</label>
+            >
+              <option value="MAINTENANCE">Maintenance</option>
+              <option value="REPAIRMENT">Repairment</option>
+            </select>
           </div>
         </div>
 
         <div className="newRequestItem device-selection">
           <label>Select device</label>
           <select
+            className="custom-select"
             name="device"
             value={updatingDevice.selectValue || ""}
             onChange={handleUpdatingDeviceChange}
@@ -245,30 +237,16 @@ export default function NewRequest() {
         <div className="newRequestItem">
           <label>Sở hữu thiết bị:</label>
           <div className="newRequestType">
-            <input
-              type="radio"
+            <select
+              className="custom-select"
               name="ownership"
-              id="employee"
-              value="employee"
+              id="ownership"
               onChange={handleOwnershipTypeChange}
-            />
-            <label htmlFor="employee">Cá nhân</label>
-            <input
-              type="radio"
-              name="ownership"
-              id="room"
-              value="room"
-              onChange={handleOwnershipTypeChange}
-            />
-            <label htmlFor="room">Phòng</label>
-            <input
-              type="radio"
-              name="ownership"
-              id="room"
-              value="null"
-              onChange={handleOwnershipTypeChange}
-            />
-            <label htmlFor="room">Bỏ chọn</label>
+            >
+              <option value="null">Không</option>
+              <option value="employee">Cá nhân</option>
+              <option value="room">Phòng</option>
+            </select>
           </div>
         </div>
 
@@ -276,6 +254,7 @@ export default function NewRequest() {
           <div className="newRequestItem employee-selection">
             <label>Select employee</label>
             <select
+              className="custom-select"
               name="employeeId"
               value={updatingAssignedEmployee.selectionValue || ""}
               onChange={handleAssignedEmployeeChange}
@@ -299,6 +278,7 @@ export default function NewRequest() {
           <div className="newRequestItem room-selection">
             <label>Select room</label>
             <select
+              className="custom-select"
               name="roomId"
               value={updatingRoom.selectValue || ""}
               onChange={handleUpdatingRoomChange}
