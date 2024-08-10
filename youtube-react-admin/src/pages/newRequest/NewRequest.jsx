@@ -226,16 +226,16 @@ export default function NewRequest() {
         </div>
 
         <div className="newRequestItem">
-          <label>Tình trạng thiết bị khi tiếp nhận:</label>
+          <label>Device description:</label>
           <input
             type="text"
-            placeholder="Mô tả"
+            placeholder="Device's description"
             value={deviceDescription}
             onChange={handleDeviceDescriptionChange}
           />
         </div>
         <div className="newRequestItem">
-          <label>Sở hữu thiết bị:</label>
+          <label>Device ownership:</label>
           <div className="newRequestType">
             <select
               className="custom-select"
@@ -243,9 +243,9 @@ export default function NewRequest() {
               id="ownership"
               onChange={handleOwnershipTypeChange}
             >
-              <option value="null">Không</option>
-              <option value="employee">Cá nhân</option>
-              <option value="room">Phòng</option>
+              <option value="null">None</option>
+              <option value="employee">Employee</option>
+              <option value="room">Room</option>
             </select>
           </div>
         </div>
